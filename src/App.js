@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./styles.css";
 
-const LOGO_URL = "https://i.ibb.co/9mBvpvps/ACC.png";
+const LOGO_URL = "/img/icon.jpg";
 
 // ==========================================
 // 1. DỮ LIỆU & CẤU HÌNH FULL 100%
@@ -1144,7 +1144,7 @@ const StudentApp = ({ onLogout, userSchool }) => {
                 className="logo-center"
                 alt="AccQuest"
                 style={{
-                  width: "120px",
+                  width: "170px",
                   margin: "0 auto 20px",
                   display: "block",
                 }}
@@ -1775,7 +1775,7 @@ const Login = ({ onLogin }) => {
   return (
     <div className="login-bg">
       <div className="login-card anim-up">
-        <img src={LOGO_URL} width="100" alt="Logo" />
+        <img src={LOGO_URL} width="170" alt="Logo" />
         <h2>AccQuest</h2>
         <p className="login-tag">Học Kế toán qua Game thực chiến</p>
 
