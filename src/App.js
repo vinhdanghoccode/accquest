@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import "./styles.css";
 
 const LOGO_URL = "https://i.ibb.co/9mBvpvps/ACC.png";
 
 // ==========================================
-// 1. DỮ LIỆU & CẤU HÌNH
+// 1. DỮ LIỆU & CẤU HÌNH FULL 100%
 // ==========================================
 
 const DICT = {
@@ -103,7 +103,6 @@ const GAME_JOURNEY = [
   },
 ];
 
-// DATA MÔN HỌC
 const ALL_SUBJECTS = {
   nlkt: {
     id: "nlkt",
@@ -408,7 +407,6 @@ const SHOP_ITEMS = [
   },
 ];
 
-// --- DỮ LIỆU B2B MỚI NHẤT ---
 const REC_DATA = {
   company: { name: "Deloitte Vietnam", credit: 500, avatar: "DL" },
   kpi: {
@@ -441,9 +439,10 @@ const REC_DATA = {
       id: 1,
       name: "Nguyễn Văn A",
       gpa: "3.8",
-      school: "HV Ngân Hàng",
+      school: "Học viện Ngân hàng (BAV)",
       skill: "ACCA F3",
       exp: "MISA (3 tháng)",
+      biScore: "85%",
       status: "pending",
     },
     {
@@ -453,53 +452,144 @@ const REC_DATA = {
       school: "ĐH KTQD",
       skill: "Taxation",
       exp: "CLB Kế toán",
+      biScore: "92%",
       status: "pending",
     },
   ],
 };
 
 // ==========================================
-// 2. COMPONENTS
+// 2. COMPONENTS ĐẤU TRƯỜNG & GAME AI
 // ==========================================
 
-const VideoScreen = ({ lesson, onBack, lang, T }) => (
-  <div className="screen video-screen">
-    <div className="nav-header glass">
-      <button onClick={onBack}>⬅</button>
-      <span>{T.video_title}</span>
-      <div style={{ width: 24 }} />
-    </div>
-    <div className="video-frame">
-      <iframe
-        width="100%"
-        height="100%"
-        src={`https://www.youtube.com/embed/${lesson.videoId}`}
-        title="yt"
-        frameBorder="0"
-        allowFullScreen
-      />
-    </div>
-    <div className="content-pad">
-      <h3>{lang === "vi" ? lesson.title_vi : lesson.title_en}</h3>
-      <div className="note-box">
-        <textarea placeholder={T.note_ph}></textarea>
-      </div>
-      <button className="btn-primary" onClick={onBack}>
-        {T.btn_finish}
-      </button>
-    </div>
-  </div>
-);
+const TournamentScreen = ({ onBack, userSchool }) => {
+  const leaderboard = [
+    { rank: 1, name: "Lê Thị Bình", class: "K6 Kế toán A", score: 4500 },
+    { rank: 2, name: "Trần T. Thúy Ngà", class: "K26 Ngân hàng", score: 4200 },
+    { rank: 3, name: "Lê Thị Hiên", class: "K6 Kế toán A", score: 3950 },
+  ];
 
+  return (
+    <div
+      className="screen tour-screen animate-scale-up"
+      style={{ background: "#f8f9fa", minHeight: "100vh" }}
+    >
+      <div
+        className="nav-header glass"
+        style={{
+          background: "#0f172a",
+          color: "white",
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "15px 20px",
+        }}
+      >
+        <button
+          onClick={onBack}
+          style={{
+            color: "white",
+            background: "transparent",
+            border: "none",
+            fontSize: "1rem",
+            cursor: "pointer",
+          }}
+        >
+          ⬅ Quay lại
+        </button>
+        <span style={{ fontWeight: "bold" }}>Đấu trường Học thuật</span>
+        <div style={{ width: 60 }}></div>
+      </div>
+
+      <div className="tour-hero-banner">
+        <div className="tour-sponsor">
+          Đơn vị tổ chức: Liên chi Hội SV Khoa Kế toán - Kiểm toán
+        </div>
+        <h2 style={{ marginBottom: "10px" }}>
+          OLYMPIC KẾ TOÁN {userSchool ? "2026" : "BAV 2026"}
+        </h2>
+        <div className="live-status">🔴 ĐANG DIỄN RA (Còn 45:12)</div>
+      </div>
+
+      <div className="tour-body-content">
+        <h3
+          className="section-title"
+          style={{
+            marginTop: "20px",
+            marginBottom: "10px",
+            fontSize: "1.1rem",
+            color: "#1e293b",
+          }}
+        >
+          Nhiệm vụ Vòng Bán Kết
+        </h3>
+        <div className="tour-task-card">
+          <div
+            className="task-icon"
+            style={{ fontSize: "3rem", marginBottom: "10px" }}
+          >
+            🗂️
+          </div>
+          <div className="task-info">
+            <h4 style={{ marginBottom: "5px" }}>
+              Bộ chứng từ Công ty Sản xuất Alpha
+            </h4>
+            <p
+              style={{
+                fontSize: "0.85rem",
+                color: "#64748b",
+                marginBottom: "15px",
+              }}
+            >
+              50 nghiệp vụ phát sinh trong tháng 3/2026
+            </p>
+          </div>
+          <button
+            className="btn-tour-join"
+            onClick={() => alert("Bắt đầu tính giờ!")}
+          >
+            Vào thi ngay
+          </button>
+        </div>
+
+        <h3
+          className="section-title"
+          style={{
+            marginTop: "30px",
+            marginBottom: "10px",
+            fontSize: "1.1rem",
+            color: "#1e293b",
+          }}
+        >
+          🏆 Bảng xếp hạng Live
+        </h3>
+        <div className="live-leaderboard">
+          {leaderboard.map((user, idx) => (
+            <div key={idx} className={`lb-row ${idx === 0 ? "top-1" : ""}`}>
+              <div className="lb-rank">#{user.rank}</div>
+              <div className="lb-name">
+                <b>{user.name}</b>
+                <small>{user.class}</small>
+              </div>
+              <div className="lb-score">{user.score} XP</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// MÀN HÌNH GAME CÓ AI RULE-BASED (CHUẨN THÔNG TƯ 99)
+// ==========================================
 const GameScreen = ({ onBack, T }) => {
-  const [step, setStep] = useState(1); // 1: Phân loại, 2: Định khoản, 3: Kết quả
+  const [step, setStep] = useState(1);
   const [docIdx, setDocIdx] = useState(0);
   const [entryIdx, setEntryIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState("");
   const [entry, setEntry] = useState({ dr: "", cr: "" });
 
-  // Ngân hàng 5 chứng từ với các "bẫy" thực tế
   const docs = [
     {
       id: 1,
@@ -518,7 +608,7 @@ const GameScreen = ({ onBack, T }) => {
     {
       id: 3,
       title: "Hóa đơn mua quà tặng",
-      desc: "Mua cúp lưu niệm cho 3 giải Hạng mục A, 3 giải Hạng mục B và 1 giải được yêu thích nhất. Đầy đủ chữ ký, mộc đỏ.",
+      desc: "Mua cúp lưu niệm cho 3 giải Hạng mục A, 3 giải Hạng mục B. Đầy đủ chữ ký, mộc đỏ.",
       valid: true,
     },
     {
@@ -536,26 +626,28 @@ const GameScreen = ({ onBack, T }) => {
     },
   ];
 
-  // Chuỗi 3 nghiệp vụ hạch toán liên hoàn
+  // KIẾN THỨC KẾ TOÁN ÁP DỤNG THÔNG TƯ 99/2025/TT-BTC
   const entries = [
     {
-      q: "Nghiệp vụ 1: Rút 10.000.000đ từ tài khoản ngân hàng về nhập quỹ tiền mặt để chuẩn bị tổ chức sự kiện.",
+      q: "Nghiệp vụ 1: Rút tiền từ tài khoản ngân hàng về nhập quỹ tiền mặt để chuẩn bị chi sự kiện.",
       dr: "111",
       cr: "112",
+      rule: "Theo TT 99/2025/TT-BTC (hiệu lực 2026), TK 112 chuẩn hóa tên gọi là 'Tiền gửi không kỳ hạn'. Rút tiền nhập quỹ làm tăng Tiền mặt (Nợ 111) và giảm Tiền gửi (Có 112).",
     },
     {
-      q: "Nghiệp vụ 2: Xuất quỹ tiền mặt 2.000.000đ để tạm ứng cho nhân viên đi mua đồ dùng.",
+      q: "Nghiệp vụ 2: Xuất quỹ tiền mặt 2.000.000đ tạm ứng cho nhân viên đi mua đồ dùng sự kiện.",
       dr: "141",
       cr: "111",
+      rule: "Căn cứ hệ thống tài khoản TT 99/2025/TT-BTC, khoản tạm ứng cho người lao động thực hiện nhiệm vụ được ghi nhận tăng phải thu nội bộ. Ghi Nợ 141 / Có 111.",
     },
     {
-      q: "Nghiệp vụ 3: Khách hàng thanh toán tiền nợ 5.000.000đ bằng hình thức chuyển khoản ngân hàng.",
+      q: "Nghiệp vụ 3: Khách hàng thanh toán tiền nợ kỳ trước bằng hình thức chuyển khoản ngân hàng.",
       dr: "112",
       cr: "131",
+      rule: "Theo nguyên tắc kế toán của TT 99/2025/TT-BTC, khi thu hồi được nợ, tài sản (Tiền gửi không kỳ hạn) tăng và Khoản phải thu giảm. Ghi Nợ 112 / Có 131.",
     },
   ];
 
-  // Logic Vòng 1: Xử lý chứng từ
   const handleSort = (isUserAccepting) => {
     const currentDoc = docs[docIdx];
     if (isUserAccepting === currentDoc.valid) {
@@ -573,45 +665,56 @@ const GameScreen = ({ onBack, T }) => {
 
     setTimeout(() => {
       setFeedback("");
-      if (docIdx < docs.length - 1) {
-        setDocIdx(docIdx + 1);
-      } else {
-        setStep(2); // Xong 5 chứng từ thì chuyển sang hạch toán
-      }
-    }, 2000); // Đợi 2 giây cho người chơi đọc dòng giải thích
+      if (docIdx < docs.length - 1) setDocIdx(docIdx + 1);
+      else setStep(2);
+    }, 2500);
   };
 
-  // Logic Vòng 2: Hạch toán nhiều nghiệp vụ
   const handleSubmitEntry = () => {
     const currentTask = entries[entryIdx];
 
-    if (entry.dr === currentTask.dr && entry.cr === currentTask.cr) {
+    // Khắc phục lỗi gõ nhầm dấu cách của người dùng
+    const userDr = entry.dr.trim();
+    const userCr = entry.cr.trim();
+
+    if (userDr === currentTask.dr && userCr === currentTask.cr) {
       setScore((s) => s + 100);
       setFeedback("✅ Định khoản chính xác! (+100 XP)");
-
       setTimeout(() => {
         setFeedback("");
         if (entryIdx < entries.length - 1) {
           setEntryIdx(entryIdx + 1);
-          setEntry({ dr: "", cr: "" }); // Reset ô nhập liệu
-        } else {
-          setStep(3); // Hoàn thành tất cả
-        }
+          setEntry({ dr: "", cr: "" });
+        } else setStep(3);
       }, 1500);
     } else {
       setFeedback(
-        `❌ Sai rồi! Nhắc bài: Chú ý sự tăng giảm của Tài sản/Nguồn vốn nhé.`
+        `❌ AI Phát hiện lỗi: Hạch toán sai bản chất. \n💡 Giải thích: ${currentTask.rule}`
       );
-      setTimeout(() => setFeedback(""), 2000);
+      setTimeout(() => setFeedback(""), 5000); // Tăng thời gian hiển thị Luật để dễ đọc
     }
   };
 
   return (
-    <div className="screen game-screen animate-scale-up">
-      <div className="nav-header glass">
-        <button onClick={onBack}>⬅ Thoát ca làm</button>
-        <span>
-          Nhiệm vụ:{" "}
+    <div
+      className="screen game-screen animate-scale-up"
+      style={{ minHeight: "100vh", background: "#f8f9fa" }}
+    >
+      <div
+        className="nav-header glass"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "15px",
+        }}
+      >
+        <button
+          onClick={onBack}
+          style={{ background: "none", border: "none", fontWeight: "bold" }}
+        >
+          ⬅ Thoát ca làm
+        </button>
+        <span style={{ fontWeight: "bold" }}>
           {step === 1
             ? "Phân loại chứng từ"
             : step === 2
@@ -635,9 +738,9 @@ const GameScreen = ({ onBack, T }) => {
 
         {feedback && <div className="feedback-toast anim-fade">{feedback}</div>}
 
-        {/* --- GIAI ĐOẠN 1: PHÂN LOẠI CHỨNG TỪ --- */}
         {step === 1 && (
-          <div className="task-container anim-up">
+          // Thêm thuộc tính key để ép React tải lại, trị dứt điểm lỗi của Google Dịch
+          <div className="task-container anim-up" key={`doc-${docIdx}`}>
             <h3 className="task-instruction">
               Kiểm tra chứng từ này có hợp lệ không?
             </h3>
@@ -658,10 +761,10 @@ const GameScreen = ({ onBack, T }) => {
           </div>
         )}
 
-        {/* --- GIAI ĐOẠN 2: ĐỊNH KHOẢN --- */}
         {step === 2 && (
-          <div className="task-container anim-up">
-            <h3 className="task-instruction">Hạch toán lên phần mềm Misa</h3>
+          // Thuộc tính key={`task-${entryIdx}`} là vũ khí bí mật giúp câu hỏi luôn được làm mới
+          <div className="task-container anim-up" key={`task-${entryIdx}`}>
+            <h3 className="task-instruction">Hạch toán lên phần mềm</h3>
             <div className="document-card mini">
               <b>Yêu cầu:</b> {entries[entryIdx].q}
             </div>
@@ -669,7 +772,7 @@ const GameScreen = ({ onBack, T }) => {
               <div className="input-group">
                 <label>Nợ TK (Dr):</label>
                 <input
-                  type="number"
+                  type="text"
                   placeholder="Ví dụ: 111"
                   value={entry.dr}
                   onChange={(e) => setEntry({ ...entry, dr: e.target.value })}
@@ -678,7 +781,7 @@ const GameScreen = ({ onBack, T }) => {
               <div className="input-group">
                 <label>Có TK (Cr):</label>
                 <input
-                  type="number"
+                  type="text"
                   placeholder="Ví dụ: 112"
                   value={entry.cr}
                   onChange={(e) => setEntry({ ...entry, cr: e.target.value })}
@@ -691,7 +794,6 @@ const GameScreen = ({ onBack, T }) => {
           </div>
         )}
 
-        {/* --- GIAI ĐOẠN 3: HOÀN THÀNH --- */}
         {step === 3 && (
           <div className="task-container anim-up result-screen">
             <div className="trophy-icon">🏆</div>
@@ -708,63 +810,58 @@ const GameScreen = ({ onBack, T }) => {
   );
 };
 
-const SubjectDetail = ({ id, lang, onBack, onPlay, onSub, T }) => {
-  const data = ALL_SUBJECTS[id] || ALL_SUBJECTS["nlkt"];
-  return (
-    <div className="screen subject-screen">
-      <div className="nav-header glass">
-        <button onClick={onBack}>⬅</button>
-        <span>{lang === "vi" ? data.name_vi : data.name_en}</span>
-        <div style={{ width: 24 }} />
-      </div>
-      <div className="subject-hero-card">
-        <div className="hero-left">
-          <div className="subject-code">
-            {data.id.substring(0, 2).toUpperCase()}
-          </div>
-        </div>
-        <div className="hero-right">
-          <h2>{lang === "vi" ? data.name_vi : data.name_en}</h2>
-          <div className="progress-bar-sm">
-            <div className="fill" style={{ width: `${data.progress}%` }}></div>
-          </div>
-          <small>{data.progress}%</small>
-        </div>
-      </div>
-      <div className="lesson-list-container">
-        <div className="section-label">{T.lesson_list}</div>
-        {data.lessons.length > 0 ? (
-          data.lessons.map((l, i) => (
-            <div
-              key={i}
-              className={`lesson-card-item ${l.status}`}
-              onClick={() =>
-                l.status === "locked" ? alert(T.locked_msg) : onPlay(l)
-              }
-            >
-              <div className="lesson-icon-box">
-                {l.type === "video" ? "📺" : "🎮"}
-              </div>
-              <div className="lesson-info">
-                <h4>{lang === "vi" ? l.title_vi : l.title_en}</h4>
-                <span className="lesson-tag">{l.type.toUpperCase()}</span>
-              </div>
-              <div className="lesson-status">
-                {l.status === "done"
-                  ? "✅"
-                  : l.status === "active"
-                  ? "▶️"
-                  : "🔒"}
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="empty-state">Nội dung đang cập nhật...</div>
-        )}
-      </div>
+// ==========================================
+// CÁC COMPONENT PHỤ TRỢ
+// ==========================================
+const VideoScreen = ({ lesson, onBack, lang, T }) => (
+  <div
+    className="screen video-screen"
+    style={{ minHeight: "100vh", background: "white" }}
+  >
+    <div
+      className="nav-header glass"
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "15px",
+      }}
+    >
+      <button onClick={onBack} style={{ background: "none", border: "none" }}>
+        ⬅
+      </button>
+      <span style={{ fontWeight: "bold" }}>{T.video_title}</span>
+      <div style={{ width: 24 }} />
     </div>
-  );
-};
+    <div className="video-frame">
+      <iframe
+        width="100%"
+        height="250"
+        src={`https://www.youtube.com/embed/${lesson.videoId}`}
+        title="yt"
+        frameBorder="0"
+        allowFullScreen
+      />
+    </div>
+    <div className="content-pad" style={{ padding: "20px" }}>
+      <h3>{lang === "vi" ? lesson.title_vi : lesson.title_en}</h3>
+      <div className="note-box" style={{ marginTop: "15px" }}>
+        <textarea
+          placeholder={T.note_ph}
+          style={{
+            width: "100%",
+            height: "100px",
+            padding: "10px",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+          }}
+        ></textarea>
+      </div>
+      <button className="btn-primary" onClick={onBack}>
+        {T.btn_finish}
+      </button>
+    </div>
+  </div>
+);
 
 const AIChat = ({ onBack, lang }) => {
   const [msg, setMsg] = useState([
@@ -775,33 +872,87 @@ const AIChat = ({ onBack, lang }) => {
   ]);
   const [txt, setTxt] = useState("");
   return (
-    <div className="screen chat-screen">
-      <div className="nav-header glass">
-        <button onClick={onBack}>⬅</button>
-        <span>AI Mentor</span>
+    <div
+      className="screen chat-screen"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+        background: "#f8f9fa",
+      }}
+    >
+      <div
+        className="nav-header glass"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "15px",
+        }}
+      >
+        <button onClick={onBack} style={{ background: "none", border: "none" }}>
+          ⬅
+        </button>
+        <span style={{ fontWeight: "bold" }}>AI Mentor</span>
         <div style={{ width: 24 }} />
       </div>
-      <div className="chat-body">
+      <div
+        className="chat-body"
+        style={{ flex: 1, padding: "20px", overflowY: "auto" }}
+      >
         {msg.map((m, i) => (
-          <div key={i} className={`bubble ${m.s}`}>
-            {m.t}
+          <div
+            key={i}
+            style={{
+              marginBottom: "10px",
+              textAlign: m.s === "user" ? "right" : "left",
+            }}
+          >
+            <span
+              style={{
+                background: m.s === "user" ? "#3b82f6" : "#e2e8f0",
+                color: m.s === "user" ? "white" : "black",
+                padding: "10px 15px",
+                borderRadius: "15px",
+                display: "inline-block",
+              }}
+            >
+              {m.t}
+            </span>
           </div>
         ))}
       </div>
-      <div className="chat-footer">
-        <input value={txt} onChange={(e) => setTxt(e.target.value)} />
+      <div
+        className="chat-footer"
+        style={{
+          padding: "15px",
+          background: "white",
+          display: "flex",
+          gap: "10px",
+        }}
+      >
+        <input
+          style={{
+            flex: 1,
+            padding: "10px",
+            borderRadius: "20px",
+            border: "1px solid #ccc",
+          }}
+          value={txt}
+          onChange={(e) => setTxt(e.target.value)}
+        />
         <button
+          style={{
+            background: "#3b82f6",
+            color: "white",
+            border: "none",
+            padding: "10px 20px",
+            borderRadius: "20px",
+          }}
           onClick={() => {
             setMsg([
               ...msg,
               { s: "user", t: txt },
-              {
-                s: "bot",
-                t:
-                  lang === "vi"
-                    ? "Hạch toán vào TK 642."
-                    : "Recorded in Acc 642.",
-              },
+              { s: "bot", t: "Hạch toán vào TK 642." },
             ]);
             setTxt("");
           }}
@@ -815,9 +966,20 @@ const AIChat = ({ onBack, lang }) => {
 
 const GameJourney = ({ onPlayGame, T }) => (
   <div className="anim-fade">
-    <div className="game-intro-card">
+    <div
+      className="game-intro-card"
+      style={{
+        background: "white",
+        padding: "20px",
+        borderRadius: "12px",
+        marginBottom: "20px",
+        textAlign: "center",
+      }}
+    >
       <h3>🚀 {T.game_intro_title}</h3>
-      <p>{T.game_intro_desc}</p>
+      <p style={{ fontSize: "0.9rem", color: "#64748b", marginTop: "10px" }}>
+        {T.game_intro_desc}
+      </p>
     </div>
     <div className="journey-path">
       {GAME_JOURNEY.map((lvl, idx) => (
@@ -837,9 +999,7 @@ const GameJourney = ({ onPlayGame, T }) => (
             </div>
             <div className="node-action">
               {lvl.status === "active" ? (
-                <button className="btn-play-sm">
-                  ▶ {T.btn_play || "Play"}
-                </button>
+                <button className="btn-play-sm">▶ {T.btn_play}</button>
               ) : (
                 "🔒"
               )}
@@ -851,17 +1011,96 @@ const GameJourney = ({ onPlayGame, T }) => (
   </div>
 );
 
-// --- STUDENT APP ---
-const StudentApp = ({ onLogout }) => {
+const SubjectDetail = ({ id, lang, onBack, onPlay, T }) => {
+  const data = ALL_SUBJECTS[id] || ALL_SUBJECTS["nlkt"];
+  return (
+    <div
+      className="screen subject-screen"
+      style={{ minHeight: "100vh", background: "#f8f9fa" }}
+    >
+      <div
+        className="nav-header glass"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "15px",
+        }}
+      >
+        <button onClick={onBack} style={{ background: "none", border: "none" }}>
+          ⬅
+        </button>
+        <span style={{ fontWeight: "bold" }}>
+          {lang === "vi" ? data.name_vi : data.name_en}
+        </span>
+        <div style={{ width: 24 }} />
+      </div>
+      <div className="subject-hero-card">
+        <div className="hero-left">
+          <div className="subject-code">
+            {data.id.substring(0, 2).toUpperCase()}
+          </div>
+        </div>
+        <div className="hero-right">
+          <h2>{lang === "vi" ? data.name_vi : data.name_en}</h2>
+          <div className="progress-bar-sm">
+            <div className="fill" style={{ width: `${data.progress}%` }}></div>
+          </div>
+          <small>{data.progress}%</small>
+        </div>
+      </div>
+      <div className="lesson-list-container">
+        <div className="section-label">{T.lesson_list}</div>
+        {data.lessons.map((l, i) => (
+          <div
+            key={i}
+            className={`lesson-card-item ${l.status}`}
+            onClick={() =>
+              l.status === "locked" ? alert(T.locked_msg) : onPlay(l)
+            }
+          >
+            <div className="lesson-icon-box">
+              {l.type === "video" ? "📺" : "🎮"}
+            </div>
+            <div className="lesson-info">
+              <h4>{lang === "vi" ? l.title_vi : l.title_en}</h4>
+              <span className="lesson-tag">{l.type.toUpperCase()}</span>
+            </div>
+            <div className="lesson-status">
+              {l.status === "done" ? "✅" : l.status === "active" ? "▶️" : "🔒"}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 3. STUDENT APP CHÍNH
+// ==========================================
+const StudentApp = ({ onLogout, userSchool }) => {
   const [tab, setTab] = useState("home");
   const [lang, setLang] = useState("vi");
   const [selSub, setSelSub] = useState(null);
   const [play, setPlay] = useState(null);
   const [ai, setAi] = useState(false);
-  const [user, setUser] = useState({ name: "Bình", gems: 250, vip: false });
+  const [showTour, setShowTour] = useState(false);
+  const [user, setUser] = useState({
+    name: "Lê Thị Bình",
+    gems: 250,
+    vip: false,
+  });
   const T = DICT[lang];
 
   if (ai) return <AIChat onBack={() => setAi(false)} lang={lang} />;
+  if (showTour)
+    return (
+      <TournamentScreen
+        onBack={() => setShowTour(false)}
+        userSchool={userSchool}
+      />
+    );
+  if (play === "game") return <GameScreen onBack={() => setPlay(null)} T={T} />;
   if (play && typeof play === "object")
     return (
       <VideoScreen
@@ -871,7 +1110,6 @@ const StudentApp = ({ onLogout }) => {
         T={T}
       />
     );
-  if (play === "game") return <GameScreen onBack={() => setPlay(null)} T={T} />;
   if (selSub)
     return (
       <SubjectDetail
@@ -879,7 +1117,6 @@ const StudentApp = ({ onLogout }) => {
         lang={lang}
         onBack={() => setSelSub(null)}
         onPlay={(l) => (l.type === "video" ? setPlay(l) : setPlay("game"))}
-        onSub={() => setUser({ ...user, vip: true })}
         T={T}
       />
     );
@@ -902,7 +1139,16 @@ const StudentApp = ({ onLogout }) => {
         {tab === "home" && (
           <div className="anim-fade">
             <div className="brand-area">
-              <img src={LOGO_URL} className="logo-center" alt="AccQuest" />
+              <img
+                src={LOGO_URL}
+                className="logo-center"
+                alt="AccQuest"
+                style={{
+                  width: "120px",
+                  margin: "0 auto 20px",
+                  display: "block",
+                }}
+              />
             </div>
             <div className="lang-switch">
               <div
@@ -918,6 +1164,30 @@ const StudentApp = ({ onLogout }) => {
                 🇬🇧 ACCA
               </div>
             </div>
+
+            {/* THẺ ĐẤU TRƯỜNG B2B */}
+            <div
+              className="b2b-tournament-card anim-up"
+              onClick={() => setShowTour(true)}
+            >
+              <div className="tour-header">
+                <span className="tour-badge">
+                  🏢 Đối tác: {userSchool || "Học viện Ngân hàng (BAV)"}
+                </span>
+                <span className="tour-live">🔴 LIVE</span>
+              </div>
+              <div className="tour-body">
+                <h4>
+                  Đấu trường: Olympic Kế toán {userSchool ? "2026" : "BAV 2026"}
+                </h4>
+                <p>
+                  Không gian thi đấu ảo độc quyền của trường. Hiện có 1,240 sinh
+                  viên đang tham gia.
+                </p>
+                <button className="btn-tour-join">Vào phòng thi ➔</button>
+              </div>
+            </div>
+
             <div className="streak-card" onClick={() => setAi(true)}>
               <div className="icon">🤖</div>
               <div className="text">
@@ -925,6 +1195,7 @@ const StudentApp = ({ onLogout }) => {
                 <p>{T.ai_promo}</p>
               </div>
             </div>
+
             <h3 className="section-title">{T.roadmap}</h3>
             <div className="roadmap-list">
               {roadmapItems.map((item, idx) =>
@@ -948,8 +1219,6 @@ const StudentApp = ({ onLogout }) => {
                         ? "✅"
                         : item.s === "active"
                         ? "▶️"
-                        : item.s === "premium"
-                        ? "👑"
                         : "🔒"}
                     </div>
                   </div>
@@ -966,10 +1235,33 @@ const StudentApp = ({ onLogout }) => {
             <h3 className="section-title">{T.job_hot}</h3>
             {JOBS_DATA.map((j) => (
               <div key={j.id} className="job-item">
-                <div className="j-logo">{j.logo}</div>
-                <div className="j-info">
+                <div
+                  className="j-logo"
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    background: "#f1f5f9",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: "10px",
+                    marginRight: "15px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {j.logo}
+                </div>
+                <div className="j-info" style={{ flex: 1 }}>
                   <b>{j.title}</b>
-                  <p>{j.company}</p>
+                  <p
+                    style={{
+                      margin: "5px 0",
+                      fontSize: "0.85rem",
+                      color: "#64748b",
+                    }}
+                  >
+                    {j.company}
+                  </p>
                   <small>
                     📍 {j.loc} • {j.vip && !user.vip ? "VIP" : j.salary}
                   </small>
@@ -991,13 +1283,49 @@ const StudentApp = ({ onLogout }) => {
         {tab === "shop" && (
           <div className="anim-fade">
             <h3 className="section-title">{T.shop}</h3>
-            <div className="shop-grid">
+            <div
+              className="shop-grid"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "15px",
+              }}
+            >
               {SHOP_ITEMS.map((i) => (
-                <div key={i.id} className="shop-item">
-                  <div className="icon">{i.icon}</div>
+                <div
+                  key={i.id}
+                  className="shop-item"
+                  style={{ flexDirection: "column", textAlign: "center" }}
+                >
+                  <div
+                    className="icon"
+                    style={{ fontSize: "2rem", marginBottom: "10px" }}
+                  >
+                    {i.icon}
+                  </div>
                   <b>{i.name}</b>
-                  <p>{i.desc}</p>
-                  <button className="btn-buy">{i.price} 💎</button>
+                  <p
+                    style={{
+                      fontSize: "0.8rem",
+                      color: "#64748b",
+                      margin: "5px 0 10px",
+                    }}
+                  >
+                    {i.desc}
+                  </p>
+                  <button
+                    className="btn-buy"
+                    style={{
+                      background: "#fef3c7",
+                      color: "#d97706",
+                      border: "none",
+                      padding: "5px 15px",
+                      borderRadius: "20px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {i.price} 💎
+                  </button>
                 </div>
               ))}
             </div>
@@ -1010,10 +1338,11 @@ const StudentApp = ({ onLogout }) => {
               <h3>{user.name}</h3>
               <p>
                 {lang === "vi"
-                  ? "Sinh viên K24 • HVNH"
-                  : "Student • Banking Academy"}
+                  ? `Sinh viên K6 Kế toán A • ${userSchool || "BAB"}`
+                  : `Student • ${userSchool || "Banking Academy"}`}
               </p>
             </div>
+
             <div className="stats-grid">
               <div className="stat-box">
                 <b>3.8</b>
@@ -1028,6 +1357,135 @@ const StudentApp = ({ onLogout }) => {
                 <small>{T.stats_courses}</small>
               </div>
             </div>
+
+            {/* BỔ SUNG TÍNH NĂNG BI DASHBOARD (SKILL-BASED) */}
+            <div
+              className="bi-dashboard anim-up"
+              style={{
+                background: "white",
+                padding: "20px",
+                borderRadius: "12px",
+                marginBottom: "30px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
+                textAlign: "left",
+              }}
+            >
+              <h4
+                style={{
+                  color: "#1e293b",
+                  marginBottom: "5px",
+                  fontSize: "1.1rem",
+                }}
+              >
+                📊 Báo cáo Năng lực BI
+              </h4>
+              <p
+                style={{
+                  fontSize: "0.8rem",
+                  color: "#64748b",
+                  marginBottom: "20px",
+                }}
+              >
+                Dữ liệu được AI phân tích từ kết quả thực chiến game.
+              </p>
+
+              <div style={{ marginBottom: "15px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: "0.85rem",
+                    fontWeight: "bold",
+                    marginBottom: "5px",
+                  }}
+                >
+                  <span>Xử lý Chứng từ sống</span>
+                  <span style={{ color: "#10b981" }}>90%</span>
+                </div>
+                <div
+                  style={{
+                    background: "#e2e8f0",
+                    height: "8px",
+                    borderRadius: "4px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "90%",
+                      background: "#10b981",
+                      height: "100%",
+                      borderRadius: "4px",
+                    }}
+                  ></div>
+                </div>
+              </div>
+
+              <div style={{ marginBottom: "15px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: "0.85rem",
+                    fontWeight: "bold",
+                    marginBottom: "5px",
+                  }}
+                >
+                  <span>Hạch toán Kế toán</span>
+                  <span style={{ color: "#3b82f6" }}>85%</span>
+                </div>
+                <div
+                  style={{
+                    background: "#e2e8f0",
+                    height: "8px",
+                    borderRadius: "4px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "85%",
+                      background: "#3b82f6",
+                      height: "100%",
+                      borderRadius: "4px",
+                    }}
+                  ></div>
+                </div>
+              </div>
+
+              <div style={{ marginBottom: "15px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: "0.85rem",
+                    fontWeight: "bold",
+                    marginBottom: "5px",
+                  }}
+                >
+                  <span>Kê khai Thuế</span>
+                  <span style={{ color: "#f59e0b" }}>60%</span>
+                </div>
+                <div
+                  style={{
+                    background: "#e2e8f0",
+                    height: "8px",
+                    borderRadius: "4px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "60%",
+                      background: "#f59e0b",
+                      height: "100%",
+                      borderRadius: "4px",
+                    }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+
             <div className="profile-menu">
               <div className="p-item">📄 {T.cv}</div>
               <div className="p-item">🏆 {T.cert}</div>
@@ -1064,18 +1522,18 @@ const StudentApp = ({ onLogout }) => {
   );
 };
 
-// --- RECRUITER APP B2B (MỚI XỊN XÒ) ---
+// ==========================================
+// 4. RECRUITER APP B2B
+// ==========================================
 const RecruiterApp = ({ onLogout }) => {
   const [tab, setTab] = useState("dash");
   const [cands, setCands] = useState(REC_DATA.candidates);
 
-  const handle = (id, newStatus) => {
+  const handle = (id, newStatus) =>
     setCands(cands.map((c) => (c.id === id ? { ...c, status: newStatus } : c)));
-  };
 
   return (
     <div className="b2b-layout">
-      {/* SIDEBAR */}
       <div className="b2b-sidebar">
         <div className="b2b-logo">
           <span className="b2b-logo-icon">A</span> AccQuest B2B
@@ -1113,9 +1571,7 @@ const RecruiterApp = ({ onLogout }) => {
         </div>
       </div>
 
-      {/* MAIN CONTENT */}
       <div className="b2b-main">
-        {/* TOP HEADER */}
         <div className="b2b-topbar">
           <div className="b2b-company-info">
             <h2 className="b2b-company-name">{REC_DATA.company.name} Portal</h2>
@@ -1129,7 +1585,6 @@ const RecruiterApp = ({ onLogout }) => {
         </div>
 
         <div className="b2b-content-area">
-          {/* TAB: DASHBOARD */}
           {tab === "dash" && (
             <div className="anim-fade">
               <div className="b2b-kpi-grid">
@@ -1158,7 +1613,6 @@ const RecruiterApp = ({ onLogout }) => {
                   </div>
                 </div>
               </div>
-
               <div className="b2b-section-box">
                 <h3 className="b2b-section-title">Ứng viên mới nhất</h3>
                 <div className="b2b-cand-list">
@@ -1202,8 +1656,6 @@ const RecruiterApp = ({ onLogout }) => {
               </div>
             </div>
           )}
-
-          {/* TAB: JOBS */}
           {tab === "jobs" && (
             <div className="anim-fade b2b-section-box">
               <h3 className="b2b-section-title">Quản lý Tin tuyển dụng</h3>
@@ -1225,8 +1677,6 @@ const RecruiterApp = ({ onLogout }) => {
               </div>
             </div>
           )}
-
-          {/* TAB: CANDIDATES */}
           {tab === "cands" && (
             <div className="anim-fade b2b-section-box">
               <h3 className="b2b-section-title">Tất cả Ứng viên</h3>
@@ -1241,8 +1691,17 @@ const RecruiterApp = ({ onLogout }) => {
                           {c.school} • GPA: {c.gpa}{" "}
                           <span className="cand-skill-tag">{c.skill}</span>
                         </p>
-                        <small style={{ color: "gray" }}>
-                          Kinh nghiệm: {c.exp}
+                        <small
+                          style={{
+                            color: "gray",
+                            display: "block",
+                            marginTop: "5px",
+                          }}
+                        >
+                          Kinh nghiệm: {c.exp}{" "}
+                          <b style={{ color: "#3b82f6", marginLeft: "10px" }}>
+                            📊 Hệ thống BI: Phù hợp {c.biScore}
+                          </b>
                         </small>
                       </div>
                     </div>
@@ -1273,8 +1732,6 @@ const RecruiterApp = ({ onLogout }) => {
               </div>
             </div>
           )}
-
-          {/* TAB: PROFILE */}
           {tab === "profile" && (
             <div className="anim-fade b2b-section-box">
               <h3 className="b2b-section-title">Hồ sơ Doanh nghiệp</h3>
@@ -1307,30 +1764,95 @@ const RecruiterApp = ({ onLogout }) => {
   );
 };
 
-// --- LOGIN + INTRO ---
+// ==========================================
+// 5. LOGIN CHÍNH (CÓ BƯỚC CHỌN TRƯỜNG)
+// ==========================================
 const Login = ({ onLogin }) => {
   const [showInfo, setShowInfo] = useState(false);
+  const [step, setStep] = useState("role");
+  const [school, setSchool] = useState("Học viện Ngân hàng (BAV)");
+
   return (
     <div className="login-bg">
       <div className="login-card anim-up">
         <img src={LOGO_URL} width="100" alt="Logo" />
         <h2>AccQuest</h2>
         <p className="login-tag">Học Kế toán qua Game thực chiến</p>
-        <div className="login-btns">
-          <button className="btn-role" onClick={() => onLogin("stu")}>
-            🎓 Sinh viên
-          </button>
-          <button className="btn-role rec" onClick={() => onLogin("rec")}>
-            🏢 Nhà tuyển dụng
-          </button>
-        </div>
-        <p className="info-link" onClick={() => setShowInfo(!showInfo)}>
-          ℹ️ Về dự án AccQuest
-        </p>
-        {showInfo && (
+
+        {step === "role" && (
+          <div className="login-btns anim-fade">
+            <button className="btn-role" onClick={() => setStep("school")}>
+              🎓 Sinh viên
+            </button>
+            <button className="btn-role rec" onClick={() => onLogin("rec")}>
+              🏢 Nhà tuyển dụng
+            </button>
+          </div>
+        )}
+
+        {step === "school" && (
+          <div className="school-select-step anim-fade">
+            <h4 style={{ marginBottom: "15px", color: "#1e293b" }}>
+              Bạn đang học trường nào?
+            </h4>
+            <select
+              style={{
+                width: "100%",
+                padding: "12px",
+                borderRadius: "8px",
+                marginBottom: "15px",
+                border: "1px solid #cbd5e1",
+                fontSize: "1rem",
+                outline: "none",
+              }}
+              value={school}
+              onChange={(e) => setSchool(e.target.value)}
+            >
+              <option value="Học viện Ngân hàng (BAV)">
+                Học viện Ngân hàng (BAV)
+              </option>
+              <option value="ĐH Kinh tế Quốc dân (NEU)">
+                ĐH Kinh tế Quốc dân (NEU)
+              </option>
+              <option value="ĐH Ngoại thương (FTU)">
+                ĐH Ngoại thương (FTU)
+              </option>
+              <option value="ĐH Kinh tế TP.HCM (UEH)">
+                ĐH Kinh tế TP.HCM (UEH)
+              </option>
+              <option value="Khác...">Trường khác...</option>
+            </select>
+            <button
+              className="btn-role"
+              style={{ width: "100%" }}
+              onClick={() => onLogin("stu", school)}
+            >
+              🚀 Bắt đầu trải nghiệm
+            </button>
+            <p
+              style={{
+                marginTop: "15px",
+                fontSize: "0.85rem",
+                color: "#64748b",
+                cursor: "pointer",
+              }}
+              onClick={() => setStep("role")}
+            >
+              ⬅ Quay lại chọn vai trò
+            </p>
+          </div>
+        )}
+
+        {step === "role" && (
+          <p className="info-link" onClick={() => setShowInfo(!showInfo)}>
+            ℹ️ Về dự án AccQuest
+          </p>
+        )}
+
+        {showInfo && step === "role" && (
           <div className="info-box anim-fade">
             <p>
-              <b>AccQuest</b> là nền tảng Web-app kết hợp <b>Gamification</b>...
+              <b>AccQuest</b> là nền tảng Web-app kết hợp <b>Gamification</b>{" "}
               giúp sinh viên trải nghiệm công việc thực tế.
             </p>
           </div>
@@ -1342,12 +1864,19 @@ const Login = ({ onLogin }) => {
 
 export default function App() {
   const [role, setRole] = useState(null);
+  const [userSchool, setUserSchool] = useState("");
+
+  const handleLogin = (selectedRole, schoolName = "") => {
+    setRole(selectedRole);
+    if (schoolName) setUserSchool(schoolName);
+  };
+
   return (
     <div className="App">
       {!role ? (
-        <Login onLogin={setRole} />
+        <Login onLogin={handleLogin} />
       ) : role === "stu" ? (
-        <StudentApp onLogout={() => setRole(null)} />
+        <StudentApp userSchool={userSchool} onLogout={() => setRole(null)} />
       ) : (
         <RecruiterApp onLogout={() => setRole(null)} />
       )}
